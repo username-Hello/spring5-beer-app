@@ -16,4 +16,8 @@ public class Ingredient {
 
     @ManyToOne
     private Beer beer;
+
+    public Ingredient(String description) {
+        this.description = description;
+    }
 }

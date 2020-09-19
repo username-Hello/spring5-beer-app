@@ -22,4 +22,9 @@ public class Fan {
 
     @OneToOne()
     private Review review;
+
+    public void setReview(Review review){
+        review.setFan(this);
+        this.review = review;
+    }
 }

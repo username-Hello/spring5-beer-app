@@ -3,6 +3,7 @@ package com.springframework.spring5beerapp.domain;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -15,5 +16,5 @@ public class BeerType {
     private String description;
 
     @OneToMany(mappedBy = "beerType")
-    private List<Beer> beer;
+    private List<Beer> beer = new ArrayList<>();
 }

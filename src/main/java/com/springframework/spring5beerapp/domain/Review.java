@@ -12,6 +12,9 @@ public class Review {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Lob
+    private String text;
+
     @ManyToOne()
     private Beer beer;
 

@@ -1,15 +1,17 @@
 package com.springframework.spring5beerapp.domain;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
-import org.springframework.format.annotation.DateTimeFormat;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Data
+@NoArgsConstructor
 public class Beer {
 
     @Id
@@ -35,8 +37,32 @@ public class Beer {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "beer")
     private List<Ingredient> ingredients = new ArrayList<>();
 
-    public void setBeerType(BeerType beerType){
-        beerType.getBeer().add(this);
-        this.beerType = beerType;    }
+    @OneToOne
+    private Snack snack;
 
+
+    public void setBeerType(BeerType beerType) {
+        beerType.getBeer().add(this);
+        this.beerType = beerType;
+    }
+
+    public void setDescription(Description description) {
+        description.setBeer(this);
+        this.description = description;
+    }
+
+    public void addFan(Fan fan) {
+        fan.getBeer().add(this);
+        this.fans.add(fan);
+    }
+
+    public void addReview(Review review) {
+        review.setBeer(this);
+        this.reviews.add(review);
+    }
+
+    public void addIngredient(Ingredient ingredient) {
+        ingredient.setBeer(this);
+        this.ingredients.add(ingredient);
+    }
 }
