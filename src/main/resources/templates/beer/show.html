@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>View beer</title>
+</head>
+<body>
+<h2 th:text="${beer.name}">Beer name</h2>
+
+<h3>Beer type</h3>
+<p th:text="${beer.beerType.description}">Good type</p>
+
+<h3>Description</h3>
+<p th:text="${beer.description.text}">Beer description here</p>
+
+<h3>Ingredients</h3>
+<table th:each="ingredient : ${beer.ingredients}">
+    <td th:text="${ingredient.description}">Ingredient here</td>
+</table>
+
+<h3>Reviews</h3>
+<table th:each="review : ${beer.reviews}">
+    <td th:text="${review.text}"> review here</td>
+</table>
+
+<table>
+    <tr>
+        <td><b>Fans</b>:</td>
+        <td th:each="fan : ${beer.fans}" th:text="${fan.firstName} + ' ' + ${fan.lastName}">fan1</td>
+    </tr>
+</table>
+
+</body>
+</html>

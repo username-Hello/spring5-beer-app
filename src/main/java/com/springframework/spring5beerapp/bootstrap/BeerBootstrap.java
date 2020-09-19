@@ -61,7 +61,10 @@ public class BeerBootstrap implements ApplicationListener<ContextRefreshedEvent>
         descriptionRepository.save(description1);
 
         Description description2 = new Description();
-        description2.setText("It's not a very good beer. Drink it at its worst. :(");
+        description2.setText("White unfiltered beer brewed using wheat malt. Has a special taste of \"live\" beer and " +
+                "unique refreshing properties, has a delicate aroma of fruits, coriander and cloves. Wheat malt in " +
+                "Alivaria White Gold beer gives the composition a creamy texture and light sweetness. The variety " +
+                "was released on October 9, 2008");
         descriptionRepository.save(description2);
 
         // create reviews

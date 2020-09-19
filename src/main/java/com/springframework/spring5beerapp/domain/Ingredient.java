@@ -3,7 +3,6 @@ package com.springframework.spring5beerapp.domain;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.math.BigDecimal;
 
 @Entity
 @Data
@@ -19,5 +18,9 @@ public class Ingredient {
 
     public Ingredient(String description) {
         this.description = description;
+    }
+
+    public Ingredient() {
+
     }
 }
