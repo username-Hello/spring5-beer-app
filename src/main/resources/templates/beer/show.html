@@ -13,6 +13,9 @@
 <h3>Description</h3>
 <p th:text="${beer.description.text}">Beer description here</p>
 
+<h3>Snack</h3>
+<p th:text="${beer.snack.description}">Snack here</p>
+
 <h3>Ingredients</h3>
 <table th:each="ingredient : ${beer.ingredients}">
     <td th:text="${ingredient.description}">Ingredient here</td>

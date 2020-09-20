@@ -1,26 +1,46 @@
 package com.springframework.spring5beerapp.controllers;
 
+import com.springframework.spring5beerapp.domain.Beer;
 import com.springframework.spring5beerapp.services.BeerService;
+import com.springframework.spring5beerapp.services.BeerTypeService;
+import com.springframework.spring5beerapp.services.FanService;
 import javassist.NotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/beer")
 public class BeerController {
 
     private final BeerService beerService;
+    private final BeerTypeService beerTypeService;
+    private final FanService fanService;
 
-    public BeerController(BeerService beerService) {
+    public BeerController(BeerService beerService, BeerTypeService beerTypeService, FanService fanService) {
         this.beerService = beerService;
+        this.beerTypeService = beerTypeService;
+        this.fanService = fanService;
     }
 
     @GetMapping("/{id}/show")
-    public String showBeer(@PathVariable Long id, Model model) throws NotFoundException {
-        model.addAttribute("beer", beerService.findById(id));
+    public String showBeer(@PathVariable String id, Model model) throws NotFoundException {
+        model.addAttribute("beer", beerService.findById(Long.valueOf(id)));
         return "beer/show";
     }
+
+    @GetMapping("/{id}/update")
+    public String updateBeer(@PathVariable String id, Model model) throws NotFoundException {
+        model.addAttribute("beer", beerService.findById(Long.valueOf(id)));
+        model.addAttribute("beerTypes", beerTypeService.getAll());
+        model.addAttribute("fans", fanService.getAll());
+        return "beer/beerform";
+    }
+
+    @PostMapping()
+    public String saveOrUpdate(@ModelAttribute Beer beer) {
+        Beer savedBeer = beerService.save(beer);
+        return "redirect:/beer/"  + savedBeer.getId() + "/show";
+    }
+
 }

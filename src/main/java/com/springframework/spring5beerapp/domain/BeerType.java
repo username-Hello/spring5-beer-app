@@ -16,5 +16,5 @@ public class BeerType {
     private String description;
 
     @OneToMany(mappedBy = "beerType")
-    private List<Beer> beer = new ArrayList<>();
+    private List<Beer> beers = new ArrayList<>();
 }

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form method="post" th:action="@{/beer/}" th:object="${beer}">
+    <input th:field="*{id}" type="hidden">
+    <input th:field="*{description.id}" type="hidden">
+    <input th:field="*{snack.id}" type="hidden">
+
+
+    <lable><b>Name</b></lable>
+    <input th:field="*{name}" type="text">
+
+    <br><br>
+    <label><b>Beer type</b></label>
+    <select name="beerType.id">
+        <option th:each="beerTypeValue : ${beerTypes}"
+                th:selected="${beerTypeValue.id.equals(beer.beerType.id)}"
+                th:text="${beerTypeValue.description}"
+                th:value="${beerTypeValue.id}">beerType
+        </option>
+    </select>
+
+    <br><br>
+    <label><b>Description</b></label>
+    <br>
+    <textarea th:field="*{description.text}"></textarea>
+
+    <br><br>
+    <label>Snack</label>
+    <p th:text="*{snack.description}"></p>
+
+    <br><br>
+    <label><b>Ingredients</b></label>
+    <table>
+        <tr th:each="ingredient : *{ingredients}">
+            <td th:text="${ingredient.description}">Ingredient here</td>
+            <td><a href="#" th:href="@{'/ingredient/' + ${ingredient.id} + '/update'}">Update</a></td>
+            <td><a href="#" th:href="@{'/ingredient/' + ${ingredient.id} + '/delete'}">Delete</a></td>
+        </tr>
+    </table>
+    <div th:each="ingredientEach, idx : ${beer.ingredients}">
+        <input th:field="*{ingredients[__${idx.index}__].id}" type="hidden" />
+        <input th:field="*{ingredients[__${idx.index}__].beer.id}" type="hidden" />
+        <input th:field="*{ingredients[__${idx.index}__].description}" type="hidden" />
+    </div>
+
+    <br><br>
+    <label>Reviews</label>
+    <table th:each="review : ${beer.reviews}">
+        <td th:text="${review.text}"> review here</td>
+    </table>
+    <div th:each="reviewEach, idx : ${beer.reviews}">
+        <input th:field="*{reviews[__${idx.index}__].id}" type="hidden">
+        <input th:field="*{reviews[__${idx.index}__].beer.id}" type="hidden">
+        <input th:field="*{reviews[__${idx.index}__].fan.id}" type="hidden">
+        <input th:field="*{reviews[__${idx.index}__].text}" type="hidden">
+    </div>
+
+    <br><br>
+    <table >
+        <tr>
+            <td><b>Fans</b>:</td>
+            <td th:each="fan : ${beer.fans}"
+                th:text="${fan.firstName} + ' ' + ${fan.lastName}">fan1</td>
+        </tr>
+    </table>
+    <div th:each="fan, idx : ${beer.fans}">
+        <input th:field="*{fans[__${idx.index}__].id}" type="hidden">
+        <input th:field="*{fans[__${idx.index}__].beer[__${idx.index}__].id}" type="hidden">
+        <input th:field="*{fans[__${idx.index}__].firstName}" type="hidden">
+        <input th:field="*{fans[__${idx.index}__].lastName}" type="hidden">
+        <input th:field="*{fans[__${idx.index}__].sex}" type="hidden">
+        <input th:field="*{fans[__${idx.index}__].review.id}" type="hidden">
+    </div>
+
+    <button type="submit">Submit</button>
+</form>
+</body>
+</html>

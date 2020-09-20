@@ -61,31 +61,31 @@ public class BeerServiceImpl implements BeerService {
     @Override
     public Beer save(Beer beer) {
 
-        // Проверки, сохранены ли компоненты объекта Beer в БД
-        if (beerTypeRepository.findById(beer.getBeerType().getId()).isEmpty()) {
-            beerTypeRepository.save(beer.getBeerType());
-        }
-        if (descriptionRepository.findById(beer.getDescription().getId()).isEmpty()) {
-            descriptionRepository.save(beer.getDescription());
-        }
-        beer.getFans().forEach(fan -> {
-            if (fanRepository.findById(fan.getId()).isEmpty()) {
-                fanRepository.save(fan);
-            }
-        });
-        beer.getReviews().forEach(review -> {
-            if (reviewRepository.findById(review.getId()).isEmpty()) {
-                reviewRepository.save(review);
-            }
-        });
-        beer.getIngredients().forEach(ingredient -> {
-            if (ingredientRepository.findById(ingredient.getId()).isEmpty()) {
-                ingredientRepository.save(ingredient);
-            }
-        });
-        if (snackRepository.findById(beer.getSnack().getId()).isEmpty()){
-            snackRepository.save(beer.getSnack());
-        }
+//        // Проверки, сохранены ли компоненты объекта Beer в БД
+//        if (beerTypeRepository.findById(beer.getBeerType().getId()).isEmpty()) {
+//            beerTypeRepository.save(beer.getBeerType());
+//        }
+//        if (descriptionRepository.findById(beer.getDescription().getId()).isEmpty()) {
+//            descriptionRepository.save(beer.getDescription());
+//        }
+//        beer.getFans().forEach(fan -> {
+//            if (fanRepository.findById(fan.getId()).isEmpty()) {
+//                fanRepository.save(fan);
+//            }
+//        });
+//        beer.getReviews().forEach(review -> {
+//            if (reviewRepository.findById(review.getId()).isEmpty()) {
+//                reviewRepository.save(review);
+//            }
+//        });
+//        beer.getIngredients().forEach(ingredient -> {
+//            if (ingredientRepository.findById(ingredient.getId()).isEmpty()) {
+//                ingredientRepository.save(ingredient);
+//            }
+//        });
+//        if (snackRepository.findById(beer.getSnack().getId()).isEmpty()){
+//            snackRepository.save(beer.getSnack());
+//        }
         return beerRepository.save(beer);
     }
 

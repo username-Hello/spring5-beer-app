@@ -1,7 +1,5 @@
 package com.springframework.spring5beerapp.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -42,7 +40,7 @@ public class Beer {
 
 
     public void setBeerType(BeerType beerType) {
-        beerType.getBeer().add(this);
+        beerType.getBeers().add(this);
         this.beerType = beerType;
     }
 
