@@ -1,18 +1,17 @@
 package com.springframework.spring5beerapp.services;
 
-import com.springframework.spring5beerapp.domain.BeerType;
-import com.springframework.spring5beerapp.domain.Fan;
+import com.springframework.spring5beerapp.commands.FanCommand;
 import javassist.NotFoundException;
 
 import java.util.List;
 
 public interface FanService {
 
-    List<Fan> getAll();
+    List<FanCommand> getAll();
 
-    Fan findById(Long id) throws NotFoundException;
+    FanCommand findById(Long id) throws NotFoundException;
 
-    Fan save(Fan fan);
+    FanCommand save(FanCommand fan);
 
     void deleteById(Long id);
 }

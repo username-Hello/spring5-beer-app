@@ -36,7 +36,7 @@
     <br><br>
     <label><b>Ingredients</b></label>
     <table>
-        <tr th:each="ingredient : *{ingredients}">
+        <tr th:each="ingredient : ${beer.ingredients}">
             <td th:text="${ingredient.description}">Ingredient here</td>
             <td><a href="#" th:href="@{'/ingredient/' + ${ingredient.id} + '/update'}">Update</a></td>
             <td><a href="#" th:href="@{'/ingredient/' + ${ingredient.id} + '/delete'}">Delete</a></td>
@@ -44,7 +44,6 @@
     </table>
     <div th:each="ingredientEach, idx : ${beer.ingredients}">
         <input th:field="*{ingredients[__${idx.index}__].id}" type="hidden"/>
-        <input th:field="*{ingredients[__${idx.index}__].beer.id}" type="hidden"/>
         <input th:field="*{ingredients[__${idx.index}__].description}" type="hidden"/>
     </div>
 
@@ -55,8 +54,6 @@
     </table>
     <div th:each="reviewEach, idx : ${beer.reviews}">
         <input th:field="*{reviews[__${idx.index}__].id}" type="hidden">
-        <input th:field="*{reviews[__${idx.index}__].beer.id}" type="hidden">
-        <input th:field="*{reviews[__${idx.index}__].fan.id}" type="hidden">
         <input th:field="*{reviews[__${idx.index}__].text}" type="hidden">
     </div>
 
@@ -71,11 +68,9 @@
     </table>
     <div th:each="fan, idx : ${beer.fans}">
         <input th:field="*{fans[__${idx.index}__].id}" type="hidden">
-        <input th:field="*{fans[__${idx.index}__].beer[__${idx.index}__].id}" type="hidden">
         <input th:field="*{fans[__${idx.index}__].firstName}" type="hidden">
         <input th:field="*{fans[__${idx.index}__].lastName}" type="hidden">
         <input th:field="*{fans[__${idx.index}__].sex}" type="hidden">
-        <input th:field="*{fans[__${idx.index}__].review.id}" type="hidden">
     </div>
 
     <button type="submit">Submit</button>

@@ -1,17 +1,17 @@
 package com.springframework.spring5beerapp.services;
 
-import com.springframework.spring5beerapp.domain.Review;
+import com.springframework.spring5beerapp.commands.ReviewCommand;
 import javassist.NotFoundException;
 
 import java.util.List;
 
 public interface ReviewService {
 
-    List<Review> getAll();
+    List<ReviewCommand> getAll();
 
-    Review findById(Long id) throws NotFoundException;
+    ReviewCommand findById(Long id) throws NotFoundException;
 
-    Review save(Review review);
+    ReviewCommand save(ReviewCommand reviewCommand);
 
     void deleteById(Long id);
 }

@@ -1,17 +1,17 @@
 package com.springframework.spring5beerapp.services;
 
-import com.springframework.spring5beerapp.domain.Ingredient;
+import com.springframework.spring5beerapp.commands.IngredientCommand;
 import javassist.NotFoundException;
 
 import java.util.List;
 
 public interface IngredientService {
 
-    List<Ingredient> getAll();
+    List<IngredientCommand> getAll();
 
-    Ingredient findById(Long id) throws NotFoundException;
+    IngredientCommand findById(Long id) throws NotFoundException;
 
-    Ingredient save(Ingredient ingredient);
+    IngredientCommand save(IngredientCommand ingredient);
 
     void deleteById(Long id);
 }

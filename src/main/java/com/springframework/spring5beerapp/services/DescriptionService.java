@@ -1,17 +1,17 @@
 package com.springframework.spring5beerapp.services;
 
-import com.springframework.spring5beerapp.domain.Description;
+import com.springframework.spring5beerapp.commands.DescriptionCommand;
 import javassist.NotFoundException;
 
 import java.util.List;
 
 public interface DescriptionService {
 
-    List<Description> getAll();
+    List<DescriptionCommand> getAll();
 
-    Description findById(Long id) throws NotFoundException;
+    DescriptionCommand findById(Long id) throws NotFoundException;
 
-    Description save(Description description);
+    DescriptionCommand save(DescriptionCommand description);
 
     void deleteById(Long id);
 }

@@ -1,7 +1,9 @@
 package com.springframework.spring5beerapp.services;
 
+import com.springframework.spring5beerapp.commands.BeerCommand;
+import com.springframework.spring5beerapp.converters.BeerCommandToBeer;
+import com.springframework.spring5beerapp.converters.BeerToBeerCommand;
 import com.springframework.spring5beerapp.domain.Beer;
-import com.springframework.spring5beerapp.domain.Description;
 import com.springframework.spring5beerapp.repositories.*;
 import javassist.NotFoundException;
 import org.springframework.stereotype.Service;
@@ -20,11 +22,13 @@ public class BeerServiceImpl implements BeerService {
     private final ReviewRepository reviewRepository;
     private final IngredientRepository ingredientRepository;
     private final SnackRepository snackRepository;
+    private final BeerToBeerCommand beerToBeerCommand;
+    private final BeerCommandToBeer beerCommandToBeer;
 
     public BeerServiceImpl(BeerRepository beerRepository, BeerTypeRepository beerTypeRepository,
                            DescriptionRepository descriptionRepository, FanRepository fanRepository,
                            ReviewRepository reviewRepository, IngredientRepository ingredientRepository,
-                           SnackRepository snackRepository) {
+                           SnackRepository snackRepository, BeerToBeerCommand beerToBeerCommand, BeerCommandToBeer beerCommandToBeer) {
         this.beerRepository = beerRepository;
         this.beerTypeRepository = beerTypeRepository;
         this.descriptionRepository = descriptionRepository;
@@ -32,42 +36,40 @@ public class BeerServiceImpl implements BeerService {
         this.reviewRepository = reviewRepository;
         this.ingredientRepository = ingredientRepository;
         this.snackRepository = snackRepository;
+        this.beerToBeerCommand = beerToBeerCommand;
+        this.beerCommandToBeer = beerCommandToBeer;
     }
 
     @Override
-    public List<Beer> getAll() {
-        List<Beer> beers = new ArrayList<>();
-        beerRepository.findAll().iterator().forEachRemaining(beers::add);
+    public List<BeerCommand> getAll() {
+        List<BeerCommand> beers = new ArrayList<>();
+        beerRepository
+                .findAll()
+                .iterator()
+                .forEachRemaining(beer -> beers.add(beerToBeerCommand.convert(beer)));
         return beers;
     }
 
     @Override
-    public Beer findById(Long id) throws NotFoundException {
+    public BeerCommand findById(Long id) throws NotFoundException {
         Optional<Beer> beerOptional = beerRepository.findById(id);
         if (beerOptional.isEmpty()) {
             throw new NotFoundException("Beer doesn't exist");
         }
-        return beerOptional.get();
+        return beerToBeerCommand.convert(beerOptional.get());
     }
 
     @Override
-    public Beer findByName(String name) throws NotFoundException {
+    public BeerCommand findByName(String name) throws NotFoundException {
         Optional<Beer> beerOptional = beerRepository.findBeerByName(name);
         if (beerOptional.isEmpty()) {
             throw new NotFoundException("Beer doesn't exist");
         }
-        return beerOptional.get();
+        return beerToBeerCommand.convert(beerOptional.get());
     }
 
     @Override
-    public Beer createBeer(){
-        Beer beer = new Beer();
-        beer.setDescription(new Description());
-        return beer;
-    }
-
-    @Override
-    public Beer save(Beer beer) {
+    public BeerCommand save(BeerCommand beerCommand) {
 
 //        // Проверки, сохранены ли компоненты объекта Beer в БД
 //        if (beerTypeRepository.findById(beer.getBeerType().getId()).isEmpty()) {
@@ -94,7 +96,7 @@ public class BeerServiceImpl implements BeerService {
 //        if (snackRepository.findById(beer.getSnack().getId()).isEmpty()){
 //            snackRepository.save(beer.getSnack());
 //        }
-        return beerRepository.save(beer);
+        return beerToBeerCommand.convert(beerRepository.save(beerCommandToBeer.convert(beerCommand)));
     }
 
     @Override

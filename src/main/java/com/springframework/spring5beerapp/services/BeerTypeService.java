@@ -1,18 +1,18 @@
 package com.springframework.spring5beerapp.services;
 
 
-import com.springframework.spring5beerapp.domain.BeerType;
+import com.springframework.spring5beerapp.commands.BeerTypeCommand;
 import javassist.NotFoundException;
 
 import java.util.List;
 
 public interface BeerTypeService{
 
-    List<BeerType> getAll();
+    List<BeerTypeCommand> getAll();
 
-    BeerType findById(Long id) throws NotFoundException;
+    BeerTypeCommand findById(Long id) throws NotFoundException;
 
-    BeerType save(BeerType beerType);
+    BeerTypeCommand save(BeerTypeCommand beerType);
 
     void deleteById(Long id);
 }

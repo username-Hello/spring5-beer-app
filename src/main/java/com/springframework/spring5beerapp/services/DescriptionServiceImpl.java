@@ -1,5 +1,8 @@
 package com.springframework.spring5beerapp.services;
 
+import com.springframework.spring5beerapp.commands.DescriptionCommand;
+import com.springframework.spring5beerapp.converters.DescriptionCommandToDescription;
+import com.springframework.spring5beerapp.converters.DescriptionToDescriptionCommand;
 import com.springframework.spring5beerapp.domain.Description;
 import com.springframework.spring5beerapp.repositories.DescriptionRepository;
 import javassist.NotFoundException;
@@ -13,30 +16,42 @@ import java.util.Optional;
 public class DescriptionServiceImpl implements DescriptionService {
 
     private final DescriptionRepository descriptionRepository;
+    private final DescriptionToDescriptionCommand descriptionToDescriptionCommand;
+    private final DescriptionCommandToDescription descriptionCommandToDescription;
 
-    public DescriptionServiceImpl(DescriptionRepository descriptionRepository) {
+    public DescriptionServiceImpl(DescriptionRepository descriptionRepository,
+                                  DescriptionToDescriptionCommand descriptionToDescriptionCommand,
+                                  DescriptionCommandToDescription descriptionCommandToDescription) {
         this.descriptionRepository = descriptionRepository;
+        this.descriptionToDescriptionCommand = descriptionToDescriptionCommand;
+        this.descriptionCommandToDescription = descriptionCommandToDescription;
     }
 
     @Override
-    public List<Description> getAll() {
-        List<Description> descriptions = new ArrayList<>();
-        descriptionRepository.findAll().iterator().forEachRemaining(descriptions::add);
-        return descriptions;
+    public List<DescriptionCommand> getAll() {
+        List<DescriptionCommand> descriptionCommands = new ArrayList<>();
+        descriptionRepository
+                .findAll()
+                .iterator()
+                .forEachRemaining(description -> descriptionCommands
+                        .add(descriptionToDescriptionCommand.convert(description)));
+        return descriptionCommands;
     }
 
     @Override
-    public Description findById(Long id) throws NotFoundException {
+    public DescriptionCommand findById(Long id) throws NotFoundException {
         Optional<Description> descriptionOptional = descriptionRepository.findById(id);
         if (descriptionOptional.isEmpty()) {
             throw new NotFoundException("Description doesn't exist");
         }
-        return descriptionOptional.get();
+        return descriptionToDescriptionCommand.convert(descriptionOptional.get());
     }
 
     @Override
-    public Description save(Description description) {
-        return descriptionRepository.save(description);
+    public DescriptionCommand save(DescriptionCommand descriptionCommand) {
+        return descriptionToDescriptionCommand
+                .convert(descriptionRepository
+                        .save(descriptionCommandToDescription.convert(descriptionCommand)));
     }
 
     @Override

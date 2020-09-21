@@ -1,17 +1,17 @@
 package com.springframework.spring5beerapp.services;
 
-import com.springframework.spring5beerapp.domain.Snack;
+import com.springframework.spring5beerapp.commands.SnackCommand;
 import javassist.NotFoundException;
 
 import java.util.List;
 
 public interface SnackService {
 
-    List<Snack> getAll();
+    List<SnackCommand> getAll();
 
-    Snack findById(Long id) throws NotFoundException;
+    SnackCommand findById(Long id) throws NotFoundException;
 
-    Snack save(Snack snack);
+    SnackCommand save(SnackCommand snackCommand);
 
     void deleteById(Long id);
 }

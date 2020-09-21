@@ -1,5 +1,8 @@
 package com.springframework.spring5beerapp.services;
 
+import com.springframework.spring5beerapp.commands.SnackCommand;
+import com.springframework.spring5beerapp.converters.SnackCommandToSnack;
+import com.springframework.spring5beerapp.converters.SnackToSnackCommand;
 import com.springframework.spring5beerapp.domain.Snack;
 import com.springframework.spring5beerapp.repositories.SnackRepository;
 import javassist.NotFoundException;
@@ -13,30 +16,39 @@ import java.util.Optional;
 public class SnackServiceImpl implements SnackService {
 
     private final SnackRepository snackRepository;
+    private final SnackToSnackCommand snackToSnackCommand;
+    private final SnackCommandToSnack snackCommandToSnack;
 
-    public SnackServiceImpl(SnackRepository snackRepository) {
+    public SnackServiceImpl(SnackRepository snackRepository, SnackToSnackCommand snackToSnackCommand, SnackCommandToSnack snackCommandToSnack) {
         this.snackRepository = snackRepository;
+        this.snackToSnackCommand = snackToSnackCommand;
+        this.snackCommandToSnack = snackCommandToSnack;
     }
 
     @Override
-    public List<Snack> getAll() {
-        List<Snack> snacks = new ArrayList<>();
-        snackRepository.findAll().iterator().forEachRemaining(snacks::add);
-        return snacks;
+    public List<SnackCommand> getAll() {
+        List<SnackCommand> snackCommands = new ArrayList<>();
+        snackRepository
+                .findAll()
+                .iterator()
+                .forEachRemaining(snack -> snackCommands.add(snackToSnackCommand.convert(snack)));
+        return snackCommands;
     }
 
     @Override
-    public Snack findById(Long id) throws NotFoundException {
+    public SnackCommand findById(Long id) throws NotFoundException {
         Optional<Snack> snackOptional = snackRepository.findById(id);
-        if (snackOptional.isEmpty()){
+        if (snackOptional.isEmpty()) {
             throw new NotFoundException("Snack doesn't exist");
         }
-        return snackOptional.get();
+        return snackToSnackCommand.convert(snackOptional.get());
     }
 
     @Override
-    public Snack save(Snack snack) {
-        return snackRepository.save(snack);
+    public SnackCommand save(SnackCommand snackCommand) {
+        return snackToSnackCommand
+                .convert(snackRepository
+                        .save(snackCommandToSnack.convert((snackCommand))));
     }
 
     @Override

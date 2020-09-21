@@ -1,5 +1,6 @@
 package com.springframework.spring5beerapp.controllers;
 
+import com.springframework.spring5beerapp.commands.BeerCommand;
 import com.springframework.spring5beerapp.domain.Beer;
 import com.springframework.spring5beerapp.services.BeerService;
 import com.springframework.spring5beerapp.services.BeerTypeService;
@@ -38,16 +39,18 @@ public class BeerController {
 
     @GetMapping("/{id}/update")
     public String updateBeer(@PathVariable String id, Model model) throws NotFoundException {
-        model.addAttribute("beer", beerService.findById(Long.valueOf(id)));
+        BeerCommand beerCommand = beerService.findById(Long.valueOf(id));
+        model.addAttribute("beer", beerCommand);
         model.addAttribute("beerTypes", beerTypeService.getAll());
         model.addAttribute("fans", fanService.getAll());
+        model.addAttribute("ingredients", beerCommand.getIngredients());
         return "beer/updateBeer";
     }
 
     @PostMapping()
-    public String saveOrUpdate(@ModelAttribute Beer beer) {
-        Beer savedBeer = beerService.save(beer);
-        return "redirect:/beer/" + savedBeer.getId() + "/show";
+    public String saveOrUpdate(@ModelAttribute("beer") BeerCommand beerCommand) {
+        BeerCommand savedBeerCommand = beerService.save(beerCommand);
+        return "redirect:/beer/" + savedBeerCommand.getId() + "/show";
     }
 
 }
