@@ -43,9 +43,9 @@
         </tr>
     </table>
     <div th:each="ingredientEach, idx : ${beer.ingredients}">
-        <input th:field="*{ingredients[__${idx.index}__].id}" type="hidden" />
-        <input th:field="*{ingredients[__${idx.index}__].beer.id}" type="hidden" />
-        <input th:field="*{ingredients[__${idx.index}__].description}" type="hidden" />
+        <input th:field="*{ingredients[__${idx.index}__].id}" type="hidden"/>
+        <input th:field="*{ingredients[__${idx.index}__].beer.id}" type="hidden"/>
+        <input th:field="*{ingredients[__${idx.index}__].description}" type="hidden"/>
     </div>
 
     <br><br>
@@ -61,11 +61,12 @@
     </div>
 
     <br><br>
-    <table >
+    <table>
         <tr>
             <td><b>Fans</b>:</td>
             <td th:each="fan : ${beer.fans}"
-                th:text="${fan.firstName} + ' ' + ${fan.lastName}">fan1</td>
+                th:text="${fan.firstName} + ' ' + ${fan.lastName}">fan1
+            </td>
         </tr>
     </table>
     <div th:each="fan, idx : ${beer.fans}">

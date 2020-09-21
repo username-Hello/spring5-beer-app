@@ -38,7 +38,6 @@ public class Beer {
     @OneToOne
     private Snack snack;
 
-
     public void setBeerType(BeerType beerType) {
         beerType.getBeers().add(this);
         this.beerType = beerType;

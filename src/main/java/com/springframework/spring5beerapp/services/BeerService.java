@@ -14,6 +14,8 @@ public interface BeerService {
 
     Beer findByName(String name) throws NotFoundException;
 
+    Beer createBeer();
+
     Beer save(Beer beer);
 
     void deleteById(Long id);

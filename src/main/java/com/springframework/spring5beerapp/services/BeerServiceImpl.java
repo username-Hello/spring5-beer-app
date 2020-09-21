@@ -1,6 +1,7 @@
 package com.springframework.spring5beerapp.services;
 
 import com.springframework.spring5beerapp.domain.Beer;
+import com.springframework.spring5beerapp.domain.Description;
 import com.springframework.spring5beerapp.repositories.*;
 import javassist.NotFoundException;
 import org.springframework.stereotype.Service;
@@ -56,6 +57,13 @@ public class BeerServiceImpl implements BeerService {
             throw new NotFoundException("Beer doesn't exist");
         }
         return beerOptional.get();
+    }
+
+    @Override
+    public Beer createBeer(){
+        Beer beer = new Beer();
+        beer.setDescription(new Description());
+        return beer;
     }
 
     @Override

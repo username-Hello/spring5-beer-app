@@ -29,18 +29,25 @@ public class BeerController {
         return "beer/show";
     }
 
+    @GetMapping("/new")
+    public String createNewBeer(Model model) {
+        model.addAttribute("beer", new Beer());
+        model.addAttribute("beerTypes", beerTypeService.getAll());
+        return "beer/createBeer";
+    }
+
     @GetMapping("/{id}/update")
     public String updateBeer(@PathVariable String id, Model model) throws NotFoundException {
         model.addAttribute("beer", beerService.findById(Long.valueOf(id)));
         model.addAttribute("beerTypes", beerTypeService.getAll());
         model.addAttribute("fans", fanService.getAll());
-        return "beer/beerform";
+        return "beer/updateBeer";
     }
 
     @PostMapping()
     public String saveOrUpdate(@ModelAttribute Beer beer) {
         Beer savedBeer = beerService.save(beer);
-        return "redirect:/beer/"  + savedBeer.getId() + "/show";
+        return "redirect:/beer/" + savedBeer.getId() + "/show";
     }
 
 }
