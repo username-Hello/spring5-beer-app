@@ -43,13 +43,12 @@ public class BeerController {
         model.addAttribute("beer", beerCommand);
         model.addAttribute("beerTypes", beerTypeService.getAll());
         model.addAttribute("fans", fanService.getAll());
-        model.addAttribute("ingredients", beerCommand.getIngredients());
         return "beer/updateBeer";
     }
 
-    @PostMapping()
-    public String saveOrUpdate(@ModelAttribute("beer") BeerCommand beerCommand) {
-        BeerCommand savedBeerCommand = beerService.save(beerCommand);
+    @PostMapping("/")
+    public String saveOrUpdate(@ModelAttribute("beer") BeerCommand beerCommand) throws NotFoundException {
+        BeerCommand savedBeerCommand = beerService.update(beerCommand);
         return "redirect:/beer/" + savedBeerCommand.getId() + "/show";
     }
 

@@ -16,5 +16,7 @@ public interface BeerService {
 
     BeerCommand save(BeerCommand beer);
 
+    BeerCommand update(BeerCommand beerCommand) throws NotFoundException;
+
     void deleteById(Long id);
 }
