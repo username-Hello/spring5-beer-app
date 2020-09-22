@@ -13,6 +13,9 @@ public class IngredientToIngredientCommand implements Converter<Ingredient, Ingr
         IngredientCommand ingredientCommand = new IngredientCommand();
         ingredientCommand.setId(ingredient.getId());
         ingredientCommand.setDescription(ingredient.getDescription());
+        if (ingredient.getBeer() != null){
+            ingredientCommand.setRecipeId(ingredient.getBeer().getId());
+        }
         return ingredientCommand;
     }
 }

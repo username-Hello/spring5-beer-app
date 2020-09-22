@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Add ingredient</title>
+</head>
+<body>
+<form method="post" th:action="@{'/beer/' + ${ingredient.getRecipeId()} + '/ingredient'}" th:object="${ingredient}">
+    <label>Ingredient name</label>
+    <input th:field="*{description}">
+
+    <input th:field="${ingredient.recipeId}" type="hidden">
+
+    <br><br>
+    <button type="submit">Submit</button>
+</form>
+</body>
+</html>

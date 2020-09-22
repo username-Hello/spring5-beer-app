@@ -5,6 +5,9 @@ import com.springframework.spring5beerapp.services.IngredientService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 public class IngredientController {
@@ -15,9 +18,17 @@ public class IngredientController {
         this.ingredientService = ingredientService;
     }
 
-    @GetMapping("/ingredient/new")
-    public String addIngredient(Model model){
-        model.addAttribute("ingredient", new IngredientCommand());
-        return "redirect:/beer/new";
+    @GetMapping("/beer/{beerId}/ingredient/new")
+    public String addIngredient(@PathVariable String beerId, Model model) {
+        IngredientCommand ingredientCommand = new IngredientCommand();
+        ingredientCommand.setRecipeId(Long.valueOf(beerId));
+        model.addAttribute("ingredient", ingredientCommand);
+        return "ingredients/createIngredient";
+    }
+
+    @PostMapping("/beer/{beerId}/ingredient")
+    public String saveIngredient(@PathVariable String beerId, @ModelAttribute IngredientCommand ingredientCommand) {
+        ingredientService.save(ingredientCommand);
+        return "redirect:/beer/" + ingredientCommand.getRecipeId() + "/update";
     }
 }

@@ -39,6 +39,7 @@
 
     <br><br>
     <label><b>Ingredients</b></label>
+    <a th:href="@{'/beer/'+ ${beer.id} + '/ingredient/new'}">Add Ingredient</a>
     <table>
         <tr th:each="ingredient : ${beer.ingredients}">
             <td th:text="${ingredient.description}">Ingredient here</td>

@@ -4,6 +4,7 @@ import com.springframework.spring5beerapp.commands.IngredientCommand;
 import com.springframework.spring5beerapp.converters.IngredientCommandToIngredient;
 import com.springframework.spring5beerapp.converters.IngredientToIngredientCommand;
 import com.springframework.spring5beerapp.domain.Ingredient;
+import com.springframework.spring5beerapp.repositories.BeerRepository;
 import com.springframework.spring5beerapp.repositories.IngredientRepository;
 import javassist.NotFoundException;
 import org.springframework.stereotype.Service;
@@ -18,13 +19,16 @@ public class IngredientServiceImpl implements IngredientService {
     private final IngredientRepository ingredientRepository;
     private final IngredientToIngredientCommand ingredientToIngredientCommand;
     private final IngredientCommandToIngredient ingredientCommandToIngredient;
+    private final BeerRepository beerRepository;
 
     public IngredientServiceImpl(IngredientRepository ingredientRepository,
                                  IngredientToIngredientCommand ingredientToIngredientCommand,
-                                 IngredientCommandToIngredient ingredientCommandToIngredient) {
+                                 IngredientCommandToIngredient ingredientCommandToIngredient,
+                                 BeerRepository beerRepository) {
         this.ingredientRepository = ingredientRepository;
         this.ingredientToIngredientCommand = ingredientToIngredientCommand;
         this.ingredientCommandToIngredient = ingredientCommandToIngredient;
+        this.beerRepository = beerRepository;
     }
 
     @Override
@@ -49,9 +53,10 @@ public class IngredientServiceImpl implements IngredientService {
 
     @Override
     public IngredientCommand save(IngredientCommand ingredientCommand) {
+        Ingredient ingredient = ingredientCommandToIngredient.convert(ingredientCommand);
+        ingredient.setBeer(beerRepository.findById(ingredientCommand.getRecipeId()).get());
         return ingredientToIngredientCommand
-                .convert(ingredientRepository
-                        .save(ingredientCommandToIngredient.convert(ingredientCommand)));
+                .convert(ingredientRepository.save(ingredient));
     }
 
     @Override
