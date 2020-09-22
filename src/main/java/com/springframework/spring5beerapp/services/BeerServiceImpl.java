@@ -1,6 +1,7 @@
 package com.springframework.spring5beerapp.services;
 
 import com.springframework.spring5beerapp.commands.BeerCommand;
+import com.springframework.spring5beerapp.commands.DescriptionCommand;
 import com.springframework.spring5beerapp.converters.BeerCommandToBeer;
 import com.springframework.spring5beerapp.converters.BeerToBeerCommand;
 import com.springframework.spring5beerapp.domain.Beer;
@@ -61,11 +62,21 @@ public class BeerServiceImpl implements BeerService {
     }
 
     @Override
+    public BeerCommand createBeer() {
+        BeerCommand beerCommand = new BeerCommand();
+        beerCommand.setDescription(new DescriptionCommand());
+        return beerCommand;
+    }
+
+    @Override
     public BeerCommand update(BeerCommand beerCommand) throws NotFoundException {
         Beer beer = beerCommandToBeer.convert(beerCommand);
-        beer.getIngredients().forEach(ingredient -> ingredient.setBeer(beer));
-        beer.getReviews().forEach(review -> review.setBeer(beer));
-
+        if(beer.getIngredients() !=null){
+            beer.getIngredients().forEach(ingredient -> ingredient.setBeer(beer));
+        }
+        if (beer.getReviews() != null) {
+            beer.getReviews().forEach(review -> review.setBeer(beer));
+        }
         return beerToBeerCommand.convert(beerRepository.save(beer));
     }
 

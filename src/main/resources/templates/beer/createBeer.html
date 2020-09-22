@@ -6,9 +6,6 @@
 </head>
 <body>
 <form method="post" th:action="@{/beer/}" th:object="${beer}">
-    <input th:field="*{id}" type="hidden">
-    <input th:field="*{description.id}" type="hidden">
-
     <lable><b>Name</b></lable>
     <input th:field="*{name}" type="text">
 
@@ -26,11 +23,15 @@
     <textarea th:field="*{description.text}"></textarea>
 
     <br><br>
-    <label>Ingredients</label>
-    <a href="#">Add ingredient</a>
+    <label>Snack</label>
+    <select name="snack.id">
+        <option th:each="snackEach : ${snacks}"
+                th:text="${snackEach.description}"
+                th:value="${snackEach.id}">Snack here
+        </option>
+    </select>
 
     <button type="submit">Submit</button>
-
 </form>
 </body>
 </html>

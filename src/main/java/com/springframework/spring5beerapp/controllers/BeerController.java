@@ -1,7 +1,6 @@
 package com.springframework.spring5beerapp.controllers;
 
 import com.springframework.spring5beerapp.commands.BeerCommand;
-import com.springframework.spring5beerapp.domain.Beer;
 import com.springframework.spring5beerapp.services.BeerService;
 import com.springframework.spring5beerapp.services.BeerTypeService;
 import com.springframework.spring5beerapp.services.SnackService;
@@ -31,9 +30,10 @@ public class BeerController {
     }
 
     @GetMapping("/new")
-    public String createNewBeer(Model model) {
-        model.addAttribute("beer", new Beer());
+    public String createBeer(Model model) {
+        model.addAttribute("beer", beerService.createBeer());
         model.addAttribute("beerTypes", beerTypeService.getAll());
+        model.addAttribute("snacks", snackService.getAll());
         return "beer/createBeer";
     }
 
