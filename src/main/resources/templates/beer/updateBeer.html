@@ -43,6 +43,7 @@
     <table>
         <tr th:each="ingredient : ${beer.ingredients}">
             <td th:text="${ingredient.description}">Ingredient here</td>
+            <td><a th:href="@{'/beer/' + ${beer.id} + '/ingredient/' + ${ingredient.id} + '/delete'}">Delete</a></td>
         </tr>
     </table>
 

@@ -31,4 +31,10 @@ public class IngredientController {
         ingredientService.save(ingredientCommand);
         return "redirect:/beer/" + ingredientCommand.getRecipeId() + "/update";
     }
+
+    @GetMapping("/beer/{beerId}/ingredient/{ingredientId}/delete")
+    public String deleteIngredient(@PathVariable String beerId, @PathVariable String ingredientId) {
+        ingredientService.deleteById(Long.valueOf(ingredientId));
+        return "redirect:/beer/" + beerId + "/update";
+    }
 }
