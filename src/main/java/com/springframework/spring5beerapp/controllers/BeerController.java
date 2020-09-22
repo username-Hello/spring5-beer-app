@@ -4,7 +4,7 @@ import com.springframework.spring5beerapp.commands.BeerCommand;
 import com.springframework.spring5beerapp.domain.Beer;
 import com.springframework.spring5beerapp.services.BeerService;
 import com.springframework.spring5beerapp.services.BeerTypeService;
-import com.springframework.spring5beerapp.services.FanService;
+import com.springframework.spring5beerapp.services.SnackService;
 import javassist.NotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,12 +16,12 @@ public class BeerController {
 
     private final BeerService beerService;
     private final BeerTypeService beerTypeService;
-    private final FanService fanService;
+    private final SnackService snackService;
 
-    public BeerController(BeerService beerService, BeerTypeService beerTypeService, FanService fanService) {
+    public BeerController(BeerService beerService, BeerTypeService beerTypeService, SnackService snackService) {
         this.beerService = beerService;
         this.beerTypeService = beerTypeService;
-        this.fanService = fanService;
+        this.snackService = snackService;
     }
 
     @GetMapping("/{id}/show")
@@ -42,7 +42,7 @@ public class BeerController {
         BeerCommand beerCommand = beerService.findById(Long.valueOf(id));
         model.addAttribute("beer", beerCommand);
         model.addAttribute("beerTypes", beerTypeService.getAll());
-        model.addAttribute("fans", fanService.getAll());
+        model.addAttribute("snacks", snackService.getAll());
         return "beer/updateBeer";
     }
 
