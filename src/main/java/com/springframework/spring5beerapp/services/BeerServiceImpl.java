@@ -6,6 +6,7 @@ import com.springframework.spring5beerapp.converters.BeerCommandToBeer;
 import com.springframework.spring5beerapp.converters.BeerToBeerCommand;
 import com.springframework.spring5beerapp.domain.Beer;
 import com.springframework.spring5beerapp.repositories.BeerRepository;
+import com.springframework.spring5beerapp.repositories.ReviewRepository;
 import javassist.NotFoundException;
 import org.springframework.stereotype.Service;
 
@@ -19,13 +20,15 @@ public class BeerServiceImpl implements BeerService {
     private final BeerRepository beerRepository;
     private final BeerToBeerCommand beerToBeerCommand;
     private final BeerCommandToBeer beerCommandToBeer;
+    private final ReviewRepository reviewRepository;
 
     public BeerServiceImpl(BeerRepository beerRepository,
                            BeerToBeerCommand beerToBeerCommand,
-                           BeerCommandToBeer beerCommandToBeer) {
+                           BeerCommandToBeer beerCommandToBeer, ReviewRepository reviewRepository) {
         this.beerRepository = beerRepository;
         this.beerToBeerCommand = beerToBeerCommand;
         this.beerCommandToBeer = beerCommandToBeer;
+        this.reviewRepository = reviewRepository;
     }
 
     @Override
@@ -82,6 +85,11 @@ public class BeerServiceImpl implements BeerService {
 
     @Override
     public void deleteById(Long id) {
+        Beer beer = beerRepository.findById(id).get();
+        beer.getReviews().forEach(review -> {
+            review.setBeer(null);
+            review.getFan().setReview(null);
+        });
         beerRepository.deleteById(id);
     }
 }

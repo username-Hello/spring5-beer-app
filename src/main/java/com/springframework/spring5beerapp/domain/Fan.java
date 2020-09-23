@@ -1,5 +1,6 @@
 package com.springframework.spring5beerapp.domain;
 
+import com.sun.istack.Nullable;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -20,11 +21,15 @@ public class Fan {
     @ManyToMany(mappedBy = "fans")
     private List<Beer> beer = new ArrayList<>();
 
-    @OneToOne()
+    @Nullable
+    @OneToOne(cascade = CascadeType.ALL)
     private Review review;
 
     public void setReview(Review review){
-        review.setFan(this);
+        if (review != null) {
+            review.setFan(this);
+            this.review = review;
+        }
         this.review = review;
     }
 }

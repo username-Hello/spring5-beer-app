@@ -52,4 +52,10 @@ public class BeerController {
         return "redirect:/beer/" + savedBeerCommand.getId() + "/show";
     }
 
+    @GetMapping("/{id}/delete")
+    protected String deleteBeer(@PathVariable String id){
+        beerService.deleteById(Long.valueOf(id));
+        return "redirect:/";
+    }
+
 }

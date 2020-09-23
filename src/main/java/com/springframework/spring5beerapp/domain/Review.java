@@ -15,7 +15,7 @@ public class Review {
     @Lob
     private String text;
 
-    @ManyToOne()
+    @ManyToOne
     private Beer beer;
 
     @OneToOne

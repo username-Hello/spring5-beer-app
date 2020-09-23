@@ -19,7 +19,9 @@ public class ReviewServiceImpl implements ReviewService {
     private final ReviewToReviewCommand reviewToReviewCommand;
     private final ReviewCommandToReview reviewCommandToReview;
 
-    public ReviewServiceImpl(ReviewRepository reviewRepository, ReviewToReviewCommand reviewToReviewCommand, ReviewCommandToReview reviewCommandToReview) {
+    public ReviewServiceImpl(ReviewRepository reviewRepository,
+                             ReviewToReviewCommand reviewToReviewCommand,
+                             ReviewCommandToReview reviewCommandToReview) {
         this.reviewRepository = reviewRepository;
         this.reviewToReviewCommand = reviewToReviewCommand;
         this.reviewCommandToReview = reviewCommandToReview;
